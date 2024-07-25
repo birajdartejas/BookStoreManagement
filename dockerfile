@@ -10,6 +10,9 @@ COPY . .
 # Make the mvnw script executable
 RUN chmod +x ./mvnw
 
+# Print Maven version to ensure Maven is installed correctly
+RUN ./mvnw -v
+
 # Run the Maven package command without tests
 RUN ./mvnw clean package -DskipTests
 
