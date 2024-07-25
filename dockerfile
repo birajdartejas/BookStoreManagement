@@ -1,19 +1,20 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk-slim
+# Set the base image
+FROM maven:3.8.4-openjdk-11-slim
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the Maven wrapper and source code
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-COPY src ./src
+# Copy the project files
+COPY . .
 
-# Package the application using Maven
+# Make the mvnw script executable
+RUN chmod +x ./mvnw
+
+# Run the Maven package command without tests
 RUN ./mvnw clean package -DskipTests
 
 # Expose the port the app runs on
 EXPOSE 8080
 
-# Run the application
-ENTRYPOINT ["java","-jar","target/*.jar"]
+# Specify the command to run the app
+CMD ["java", "-jar", "target/your-app.jar"]
